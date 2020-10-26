@@ -12,6 +12,7 @@ def clear():
         system("clear")
 
 __version__ = "PR"
+exectype = "dev"
 
 # This is where the save is loaded into. Also this is where things are changed before they get saved.
 userdict = { # This is just to keep track of possible keys. There will be a different dictionary for connection statuses.
@@ -62,6 +63,11 @@ def savelistAppend(username, path):
     slst.write(dumps(slstloaded))
     slst.close()
 
+def saveConnectionDict():
+    confile = open(userdict["conpath"], "wb")
+    confile.write(dumps(condictloaded))
+    confile.close()
+
 # Detect if there is a directory of saves.
 
 currentDir = listdir()
@@ -105,6 +111,7 @@ while True:
     savelistloaded.close()
 
     savelist = loads(savelist)
+    clear()
     print("ANDROMEDA VIRTUAL MANAGER")
     print("")
     v = 0
@@ -141,11 +148,11 @@ while True:
                         userdict["password"] = profPassword.strip()
                         sleep(2)
                         userdict["savepath"] = "AndromedaSaves/{}.save".format(userdict["username"])
-                        saveUser()
                         savelistAppend(userdict["username"], userdict["savepath"])
                         userdict["conpath"] = "AndromedaSaves/{}_connections.save".format(userdict["username"])
                         cons = open(userdict["conpath"], "wb")
                         cons.write(dumps(condictdefault))
+                        saveUser()
                         clear()
                         break
     elif(profselect == 'delete'):
@@ -165,6 +172,8 @@ while True:
         delsavelst.close()
         if(path.exists("AndromedaSaves/{}.save".format(profdel)) == True):
             remove("AndromedaSaves/{}.save".format(profdel))
+            if(path.exists("AndromedaSaves/{}_connections.save".format(profdel)) == True):
+                remove("AndromedaSaves/{}_connections.save".format(profdel))
             print("Done.")
         else:
             print("This save doesn't exist sooooo... Nothing happened.")
@@ -199,4 +208,32 @@ while True:
                 userdict = loads(opensavefile.read())
                 opensavefile.close()
                 print(userdict)
-                
+                break
+
+# Now go into terminal loop.
+print("Andromeda Terminal v{}".format(__version__))
+sleep(0.5)
+print("Type 'help' to get a list of commands.")
+sleep(0.5)
+while True:
+    termPreString = "{username}@AndromedaVM#> ".format(username=userdict["username"])
+    terminalInput = input(termPreString)
+    sleep(1.5)
+    terminalInput = terminalInput.strip()
+    terminalInput = terminalInput.split(" ")
+    if(terminalInput[0] == "shutdown"):
+        print("Shutting down VM...")
+        sleep(2)
+        saveUser()
+        saveConnectionDict()
+        sleep(1)
+        raise SystemExit
+    elif(terminalInput[0] == "debug"):
+        if(exectype == "dev"):
+            if(terminalInput[1] == "getUserDict"):
+                print(userdict)
+            elif(terminalInput[1] == "getConDict"):
+                print(condictloaded)
+            elif(terminalInput[1] == "getDefConDict"):
+                print(condictdefault)
+        
