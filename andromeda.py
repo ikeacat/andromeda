@@ -68,6 +68,10 @@ def saveConnectionDict():
     confile.write(dumps(condictloaded))
     confile.close()
 
+def massSave():
+    saveUser()
+    saveConnectionDict()
+
 # Detect if there is a directory of saves.
 
 currentDir = listdir()
@@ -153,6 +157,7 @@ while True:
                         cons = open(userdict["conpath"], "wb")
                         cons.write(dumps(condictdefault))
                         saveUser()
+                        cons.close()
                         clear()
                         break
     elif(profselect == 'delete'):
@@ -202,30 +207,41 @@ while True:
                 print("That number wasnt in the range of saves that could be loaded. put in a number that shows up.")
                 input("Ok. (enter to continue)")
             else:
-                print(selectedSaved)
-                print(selectedSaved["path"])
                 opensavefile = open(selectedSaved["path"], "rb")
                 userdict = loads(opensavefile.read())
                 opensavefile.close()
-                print(userdict)
-                break
+                try:
+                    openconfile = open(userdict["conpath"], "rb")
+                except FileNotFoundError:
+                    print("This save is broken. Please make a new save or load a different save.")
+                else:
+                    condictloaded = loads(openconfile.read())
+                    openconfile.close()
+                    break
 
 # Now go into terminal loop.
+clear()
+sleep(3)
 print("Andromeda Terminal v{}".format(__version__))
 sleep(0.5)
 print("Type 'help' to get a list of commands.")
 sleep(0.5)
 while True:
-    termPreString = "{username}@AndromedaVM#> ".format(username=userdict["username"])
-    terminalInput = input(termPreString)
-    sleep(1.5)
+    termPreString = "{username}@AndromedaVM#".format(username=userdict["username"])
+    terminalInput = input(termPreString + "> ")
+    sleep(1)
     terminalInput = terminalInput.strip()
     terminalInput = terminalInput.split(" ")
-    if(terminalInput[0] == "shutdown"):
+    if(terminalInput[0] == "help"):
+        print("HELP")
+        print("----")
+        print("shutdown: Shut down the machine.")
+        print("missions: Open the missions app.")
+        print("save: Write temporary data to disk.")
+    elif(terminalInput[0] == "shutdown"):
         print("Shutting down VM...")
         sleep(2)
-        saveUser()
-        saveConnectionDict()
+        massSave()
         sleep(1)
         raise SystemExit
     elif(terminalInput[0] == "debug"):
@@ -236,4 +252,36 @@ while True:
                 print(condictloaded)
             elif(terminalInput[1] == "getDefConDict"):
                 print(condictdefault)
-        
+            elif(terminalInput[1] == "setConnection"):
+                condictloaded[terminalInput[2]] = int(terminalInput[3])
+                print("Done")
+        else:
+            print("Illegal Command.")
+    elif(terminalInput[0] == "missions"):
+        print("Opening amissions.app...")
+        sleep(2)
+        clear()
+        sleep(0.7)
+        print("MISSIONS")
+        sleep(0.5)
+        print("Hello, {}.\n".format(userdict["username"]))
+        sleep(0.2)
+        print("Registered as ANDROMEDA Employee.\n")
+        sleep(0.5)
+        print("1) Mission List")
+        sleep(0.5)
+        print("2) Current Missions")
+        sleep(0.5)
+        print("3) Mission History")
+        sleep(0.5)
+        print("\nType 'exit' to go back to your terminal.")
+        sleep(0.9)
+        missionIn = input(termPreString + "mission> ")
+    elif(terminalInput[0] == "save"):
+        print("Saving...")
+        massSave()
+        sleep(1)
+        print("Done!")
+    else:
+        print("Illegal Command.")
+        sleep(0.3)
