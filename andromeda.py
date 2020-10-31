@@ -4,6 +4,7 @@
 from time import sleep
 from pickle import loads, dumps
 from os import name, system, listdir, mkdir, remove, path
+from shutil import rmtree
 
 def clear():
     if(name == 'nt'):
@@ -23,12 +24,9 @@ userdict = { # This is just to keep track of possible keys. There will be a diff
     "creationVersion": None
 }
 
-condictdefault = { # Default dictionary for connections. 0: Offline | 1: Online, User has no access | 2: Online, User has basic access | 3: Online, User has admin access | 4: Public server. User will usually only have Guest access.
-    "rpl": 4
-}
-
-condictloaded = { # Loads in the user's dictionary of connections.
-}
+computers = [ # Default dictionary for connections. 0: Offline | 1: Online, User has no access | 2: Online, User has basic access | 3: Online, User has admin access | 4: Public server. User will usually only have Guest access.
+    {"name":"Rockford Public Library", "shortcode":"rpl", "userStatus":4, "osType": "GovernmentLinux", "filetype": "random", "realpath": "/AndromedaSaves/{}/Computers/rpl.comp"}
+]
 
 def getConStat(connection):
     try:
@@ -48,7 +46,7 @@ def getConStat(connection):
 def saveUser():
     shouldSaveThis = userdict
     
-    save2 = open(shouldSaveThis["savepath"], "wb")
+    save2 = open(shouldSaveThis["savepath"] + "userinfo.save", "wb")
     save2.write(dumps(shouldSaveThis))
     save2.close()
 
@@ -64,9 +62,7 @@ def savelistAppend(username, path):
     slst.close()
 
 def saveConnectionDict():
-    confile = open(userdict["conpath"], "wb")
-    confile.write(dumps(condictloaded))
-    confile.close()
+    pass
 
 def massSave():
     saveUser()
@@ -151,13 +147,14 @@ while True:
                         userdict["username"] = profUsername.strip()
                         userdict["password"] = profPassword.strip()
                         sleep(2)
-                        userdict["savepath"] = "AndromedaSaves/{}.save".format(userdict["username"])
+                        if(path.exists("AndromedaSaves/{}".format(userdict["username"])) == False):
+                            mkdir("AndromedaSaves/{}/".format(userdict["username"]))
+                        userdict["savepath"] = "AndromedaSaves/{}/".format(userdict["username"])
                         savelistAppend(userdict["username"], userdict["savepath"])
-                        userdict["conpath"] = "AndromedaSaves/{}_connections.save".format(userdict["username"])
-                        cons = open(userdict["conpath"], "wb")
-                        cons.write(dumps(condictdefault))
+                        if(path.exists("AndromedaSaves/{}/Connections".format(userdict["username"]))):
+                            mkdir("AndromedaSaves/{}/Connections".format(userdict["username"]))
+                        userdict["conpath"] = "AndromedaSaves/{}/Connections/".format(userdict["username"])
                         saveUser()
-                        cons.close()
                         clear()
                         break
     elif(profselect == 'delete'):
@@ -175,11 +172,8 @@ while True:
         delsavelst = open("AndromedaSaves/.savelist", "wb")
         delsavelst.write(dumps(delsvls))
         delsavelst.close()
-        if(path.exists("AndromedaSaves/{}.save".format(profdel)) == True):
-            remove("AndromedaSaves/{}.save".format(profdel))
-            if(path.exists("AndromedaSaves/{}_connections.save".format(profdel)) == True):
-                remove("AndromedaSaves/{}_connections.save".format(profdel))
-            print("Done.")
+        if(path.exists("AndromedaSaves/{}/".format(profdel)) == True):
+            rmtree("AndromedaSaves/{}/".format(profdel))
         else:
             print("This save doesn't exist sooooo... Nothing happened.")
     elif(profselect.strip() == ''):
@@ -207,17 +201,10 @@ while True:
                 print("That number wasnt in the range of saves that could be loaded. put in a number that shows up.")
                 input("Ok. (enter to continue)")
             else:
-                opensavefile = open(selectedSaved["path"], "rb")
+                opensavefile = open(selectedSaved["path"] + "userinfo.save", "rb")
                 userdict = loads(opensavefile.read())
                 opensavefile.close()
-                try:
-                    openconfile = open(userdict["conpath"], "rb")
-                except FileNotFoundError:
-                    print("This save is broken. Please make a new save or load a different save.")
-                else:
-                    condictloaded = loads(openconfile.read())
-                    openconfile.close()
-                    break
+                break
 
 # Now go into terminal loop.
 clear()
