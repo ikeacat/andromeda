@@ -28,7 +28,7 @@ computers = [ # Default dictionary for connections. 0: Offline | 1: Online, User
     {"name":"Rockford Public Library", "shortcode":"rpl", "userStatus":4, "osType": "GovernmentLinux", "filetype": "random", "realpath": "/AndromedaSaves/{}/Computers/rpl.comp"}
 ]
 
-def getConStat(connection):
+""" def getConStat(connection):
     try:
         ccstatus = condictloaded[connection]
     except KeyError:
@@ -39,7 +39,7 @@ def getConStat(connection):
         else: # Return what was loaded from default.
             return ccstatus2
     else: # Just give what was loaded
-        return ccstatus
+        return ccstatus """
 
 
 # This is where it saves :/
@@ -235,10 +235,6 @@ while True:
         if(exectype == "dev"):
             if(terminalInput[1] == "getUserDict"):
                 print(userdict)
-            elif(terminalInput[1] == "getConDict"):
-                print(condictloaded)
-            elif(terminalInput[1] == "getDefConDict"):
-                print(condictdefault)
             elif(terminalInput[1] == "setConnection"):
                 condictloaded[terminalInput[2]] = int(terminalInput[3])
                 print("Done")
@@ -247,23 +243,26 @@ while True:
     elif(terminalInput[0] == "missions"):
         print("Opening amissions.app...")
         sleep(2)
-        clear()
-        sleep(0.7)
-        print("MISSIONS")
-        sleep(0.5)
-        print("Hello, {}.\n".format(userdict["username"]))
-        sleep(0.2)
-        print("Registered as ANDROMEDA Employee.\n")
-        sleep(0.5)
-        print("1) Mission List")
-        sleep(0.5)
-        print("2) Current Missions")
-        sleep(0.5)
-        print("3) Mission History")
-        sleep(0.5)
-        print("\nType 'exit' to go back to your terminal.")
-        sleep(0.9)
-        missionIn = input(termPreString + "mission> ")
+        while True:
+            clear()
+            print("MISSIONS")
+            sleep(0.5)
+            print("Hello, {}.\n".format(userdict["username"]))
+            sleep(0.2)
+            print("Registered as ANDROMEDA Employee.\n")
+            sleep(0.5)
+            print("1) Mission List")
+            sleep(0.5)
+            print("2) Current Missions")
+            sleep(0.5)
+            print("3) Mission History")
+            sleep(0.5)
+            print("\nType 'exit' to go back to your terminal.")
+            sleep(0.9)
+            missionIn = input(termPreString + "mission.app> ")
+            if(missionIn == "1" or missionIn.lower() == "mission list"):
+                print("MISSION LIST")
+                sleep(5)
     elif(terminalInput[0] == "save"):
         print("Saving...")
         massSave()
