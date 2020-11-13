@@ -15,8 +15,8 @@ def clear():
 __version__ = "PR"
 exectype = "dev"
 
-# This is where the save is loaded into. Also this is where things are changed before they get saved.
-userdict = { # This is just to keep track of possible keys. There will be a different dictionary for connection statuses.
+# This is where the userinfo.save is loaded into. Also this is where things are changed before they get saved.
+userdict = {
     "username": None,
     "password": None,
     "savepath": None,
@@ -66,7 +66,7 @@ def saveConnectionDict():
 
 def massSave():
     saveUser()
-    saveConnectionDict()
+    #saveConnectionDict()
 
 # Detect if there is a directory of saves.
 
@@ -115,9 +115,13 @@ while True:
     print("ANDROMEDA VIRTUAL MANAGER")
     print("")
     v = 0
+    foundAL1 = False
     for i in savelist:
         print(str(v) + ") " + i["name"])
         v = v + 1
+        foundAL1 = True
+    if(foundAL1 == False):
+        print("No saved profiles found.")
     print("\nType 'new' to create a new profile.")
     print("Type 'delete' to remove a save. One completed cannot be undone.\n")
     profselect = input("Profile: ")
