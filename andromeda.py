@@ -205,10 +205,23 @@ while True:
                 print("That number wasnt in the range of saves that could be loaded. put in a number that shows up.")
                 input("Ok. (enter to continue)")
             else:
-                opensavefile = open(selectedSaved["path"] + "userinfo.save", "rb")
-                userdict = loads(opensavefile.read())
-                opensavefile.close()
-                break
+                try:
+                    opensavefile = open(selectedSaved["path"] + "userinfo.save", "rb")
+                except FileNotFoundError:
+                    print("It looks like this save doesn't exist. Please choose a different save.")
+                    sleep(4)
+                    shouldGoToTerminal = False
+                except:
+                    print("Something went wrong...")
+                    sleep(10)
+                    raise SystemExit
+                else:
+                    userdict = loads(opensavefile.read())
+                    opensavefile.close()
+                    shouldGoToTerminal = True
+                    break
+                if(shouldGoToTerminal == True):
+                    break
 
 # Now go into terminal loop.
 clear()
