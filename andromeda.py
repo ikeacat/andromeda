@@ -280,6 +280,9 @@ while True:
             if(missionIn == "1" or missionIn.lower() == "mission list"):
                 print("MISSION LIST")
                 sleep(5)
+            elif(missionIn.lower() == "exit"):
+                print("")
+                break
     elif(terminalInput[0] == "save"):
         print("Saving...")
         massSave()
