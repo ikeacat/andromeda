@@ -1,5 +1,5 @@
 import '../DefaultPrograms/Help.dart';
-import '../Essential/AndromedaSleep.dart';
+import '../Essential/misc.dart';
 import '../Essential/AndromedaUser.dart';
 import '../Essential/Computer.dart';
 import '../Essential/UserInput.dart';
@@ -12,15 +12,15 @@ class AndromedaVM extends Computer {
   @override
   void userTerminal(AndromedaUser userProfile) {
     // Create the help program.
-    HelpProgram help = HelpProgram(rowsPerPage: 1, rows: [
+    final help = HelpProgram(rowsPerPage: 1, rows: [
       'help [page number]: View this list.',
       'bobby: dead',
       'linda: yourmom'
     ]);
     print('Connecting to your AndromedaVM...');
-    Sl.asl(2500);
+    asl(2500);
     print("Type 'help' to see a list of commands.");
-    Sl.asl(300);
+    asl(300);
     while (true) {
       print('');
       var consoleInput =
