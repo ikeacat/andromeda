@@ -13,11 +13,7 @@ class AndromedaVM extends Computer {
   @override
   void userTerminal(AndromedaUser userProfile) {
     // Create the help program.
-<<<<<<< HEAD
-    HelpProgram help = HelpProgram(rowsPerPage: 4, rows: [
-=======
-    final help = HelpProgram(rowsPerPage: 1, rows: [
->>>>>>> 738d12741c437526176efaa613ef1bb62ad1c26a
+    HelpProgram help = HelpProgram(rowsPerPage: 5, rows: [
       'help [page number]: View this list.',
     ]);
     print('Connecting to your AndromedaVM...');
