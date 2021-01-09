@@ -3,6 +3,7 @@ import '../Essential/AndromedaSleep.dart';
 import '../Essential/AndromedaUser.dart';
 import '../Essential/Computer.dart';
 import '../Essential/UserInput.dart';
+import '../Essential/misc.dart';
 
 class AndromedaVM extends Computer {
   // This is the user's computer.
@@ -12,10 +13,8 @@ class AndromedaVM extends Computer {
   @override
   void userTerminal(AndromedaUser userProfile) {
     // Create the help program.
-    HelpProgram help = HelpProgram(rowsPerPage: 1, rows: [
+    HelpProgram help = HelpProgram(rowsPerPage: 4, rows: [
       'help [page number]: View this list.',
-      'bobby: dead',
-      'linda: yourmom'
     ]);
     print('Connecting to your AndromedaVM...');
     Sl.asl(2500);
@@ -29,16 +28,24 @@ class AndromedaVM extends Computer {
       if (ci[0] == 'help') {
         // Help command
         int pageNum;
+        try {
+          ci[1];
+        } catch (RangeError) {
+          ci.add('1');
+        }
+
         if (ci[1] == null) {
-          pageNum = 1;
+          pageNum = 0;
         } else {
           pageNum = int.tryParse(ci[1]);
           if (pageNum == null) {
             print('2nd positional argument (${ci[1]}) must be an integer!');
           } else {
-            help.outputdpPage(pageNum);
+            help.outputdpPage(pageNum - 1);
           }
         }
+      } else {
+        illegalCommand();
       }
     }
   }
