@@ -24,7 +24,8 @@ class AndromedaVM extends Computer {
     // Create the help program.
     HelpProgram help = HelpProgram(rowsPerPage: 5, rows: [
       'help [page number]: View this list.',
-      'connect <short name>: Connect to a computer. Must have a connection.'
+      'connect <short name>: Connect to a computer. Must have a connection.',
+      'connections: List avaliable connections.'
     ]);
     print('Connecting to your AndromedaVM...');
     asl(2500);
