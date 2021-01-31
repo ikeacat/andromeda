@@ -1,5 +1,6 @@
 import '../DefaultPrograms/Connect.dart';
 import '../DefaultPrograms/Help.dart';
+import '../DefaultPrograms/Connections.dart';
 import '../Essential/misc.dart';
 import '../Essential/AndromedaUser.dart';
 import '../Essential/Computer.dart';
@@ -61,6 +62,8 @@ class AndromedaVM extends Computer {
           print(knownConnections);
           ConnectProgram.connectTo(ci[1], super.knownConnections, userProfile);
         }
+      } else if (ci[0] == 'connections') {
+        Connections.run(super.knownConnections);
       } else {
         illegalCommand();
       }

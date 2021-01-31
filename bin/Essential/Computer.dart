@@ -29,12 +29,14 @@ class Computer {
   Computer(
       {String shortName,
       String fullName,
-      String location,
-      List<Computer> knownConnections}) {
+      String location = 'Unknown',
+      List<Computer> knownConnections,
+      ComputerStatus status = ComputerStatus.online}) {
     this.shortName = shortName;
     this.fullName = fullName;
     this.location = location;
     this.knownConnections = knownConnections;
+    this.status = status;
   }
 }
 

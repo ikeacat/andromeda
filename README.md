@@ -14,7 +14,7 @@ Work for Andromeda.
 - [x] help - General purpose program for help.
 - [ ] missions - An Andromeda mission program suite.
 - [x] connect - Connects to a server / computer.
-- [ ] connections - Scans for direct connections. Uses the list of connections
+- [x] connections - Scans for direct connections. Uses the list of connections
 - [ ] pscan - Scans for a computer's ports and outputs them to a file.
 - [ ] phack - Uses file from pscan to ATTEMPT to exploit a port.
 - [ ] ftp - an FTP thing for file manipulation across servers.
