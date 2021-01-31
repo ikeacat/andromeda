@@ -1,20 +1,29 @@
+import '../DefaultPrograms/Connect.dart';
 import '../DefaultPrograms/Help.dart';
 import '../Essential/misc.dart';
 import '../Essential/AndromedaUser.dart';
 import '../Essential/Computer.dart';
 import '../Essential/UserInput.dart';
-import '../Essential/misc.dart';
 
 class AndromedaVM extends Computer {
   // This is the user's computer.
-  AndromedaVM({String fullName, String shortName, String location})
-      : super(fullName: fullName, shortName: shortName, location: location);
+  AndromedaVM(
+      {String fullName,
+      String shortName,
+      String location,
+      List<Computer> knownConnections})
+      : super(
+            fullName: fullName,
+            shortName: shortName,
+            location: location,
+            knownConnections: knownConnections);
 
   @override
   void userTerminal(AndromedaUser userProfile) {
     // Create the help program.
     HelpProgram help = HelpProgram(rowsPerPage: 5, rows: [
       'help [page number]: View this list.',
+      'connect <short name>: Connect to a computer. Must have a connection.'
     ]);
     print('Connecting to your AndromedaVM...');
     asl(2500);
@@ -43,6 +52,14 @@ class AndromedaVM extends Computer {
           } else {
             help.outputdpPage(pageNum - 1);
           }
+        }
+      } else if (ci[0] == 'connect') {
+        if (ci[1] == null) {
+          print(
+              '2nd positional argument needs to be the shortName of a computer.');
+        } else {
+          print(knownConnections);
+          ConnectProgram.connectTo(ci[1], super.knownConnections, userProfile);
         }
       } else {
         illegalCommand();

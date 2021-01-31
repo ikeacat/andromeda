@@ -1,4 +1,5 @@
 import 'Essential/AndromedaUser.dart';
+import 'Essential/Computer.dart';
 import 'SpecialComputers/AndromedaVM.dart';
 import 'Essential/Console.dart';
 
@@ -22,7 +23,9 @@ void skipPlayerCreation() {
   final userProfile = AndromedaUser();
   userProfile.username = 'Dunce';
   userProfile.password = 'dunceydunce';
-  userProfile.pc = AndromedaVM();
+  userProfile.pc = AndromedaVM(knownConnections: [
+    Computer(fullName: 'Test Computer', shortName: 'test')
+  ]);
   AConsole.clear();
   userProfile.toTerminal();
 }
