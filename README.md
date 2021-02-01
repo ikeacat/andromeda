@@ -15,6 +15,5 @@ Work for Andromeda.
 - [ ] missions - An Andromeda mission program suite.
 - [x] connect - Connects to a server / computer.
 - [x] connections - Scans for direct connections. Uses the list of connections
-- [ ] pscan - Scans for a computer's ports and outputs them to a file.
-- [ ] phack - Uses file from pscan to ATTEMPT to exploit a port.
+- [ ] psuite - Scans a avaliable connection and returns the ports. PortCrackers are like plugins to crack different port types.
 - [ ] ftp - an FTP thing for file manipulation across servers.
