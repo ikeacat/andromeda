@@ -25,4 +25,4 @@ class AndromedaFile {
   }
 }
 
-enum FileRepresentation { plaintext, program }
+enum FileRepresentation { plaintext, program, psuiteBundle }
